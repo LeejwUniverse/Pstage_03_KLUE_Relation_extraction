@@ -1,10 +1,10 @@
 # Pstage_03_KLUE_Relation_extraction
 
-###training
+### training
 * python train
 
-###inference
+### inference
 * python inference
 
-###evaluation
+### evaluation
 * python eval_acc
