@@ -22,7 +22,10 @@ class RE_Dataset(torch.utils.data.Dataset):
 def preprocessing_dataset(dataset, label_type):
   label = []
   for i in dataset[8]:
-    label.append(label_type[i])
+    if i == 'blind':
+      label.append(100)
+    else:
+      label.append(label_type[i])
   out_dataset = pd.DataFrame({'sentence':dataset[1],'entity_01':dataset[2],'entity_02':dataset[5],'label':label,})
   return out_dataset
 
