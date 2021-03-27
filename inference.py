@@ -5,6 +5,7 @@ import pandas as pd
 import torch
 import pickle as pickle
 import numpy as np
+import argparse
 
 def pred_answer(model, tokenized_sent, device):
   dataloader = DataLoader(tokenized_sent, batch_size=32, shuffle=False)
@@ -50,7 +51,7 @@ def main(args):
   model.to(device)
 
   # load test datset
-  test_dataset_dir = "./dataset/public/public_leaderboard/public_test.tsv"
+  test_dataset_dir = "./dataset/test/public/public_test.tsv"
   test_dataset, test_label = load_test_dataset(test_dataset_dir, tokenizer)
   test_dataset = RE_Dataset(test_dataset ,test_label)
 

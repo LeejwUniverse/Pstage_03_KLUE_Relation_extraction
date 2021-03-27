@@ -15,7 +15,7 @@ if __name__ == '__main__':
   
   # data dir
   parser.add_argument('--pred_answer_dir', type=str, default="./prediction/pred_answer.csv")
-  parser.add_argument('--public_answer_dir', type=str, default="./dataset/public/public_leaderboard/public_answer.csv")
+  parser.add_argument('--public_answer_dir', type=str, default="./dataset/test/public/public_answer.csv")
   args = parser.parse_args()
   print(args)
   main(args)

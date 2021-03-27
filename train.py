@@ -22,8 +22,8 @@ def train():
   tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 
   # load dataset
-  train_dataset = load_data("./dataset/public/train/train.tsv")
-  dev_dataset = load_data("./dataset/public/train/train_dev.tsv")
+  train_dataset = load_data("./dataset/train/train.tsv")
+  dev_dataset = load_data("./dataset/train/train_dev.tsv")
   train_label = train_dataset['label'].values
   dev_label = dev_dataset['label'].values
 
