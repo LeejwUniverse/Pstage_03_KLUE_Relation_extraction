@@ -48,19 +48,21 @@ def train():
   # https://huggingface.co/transformers/main_classes/trainer.html#trainingarguments 참고해주세요.
   training_args = TrainingArguments(
     output_dir='./results',          # output directory
-    num_train_epochs=20,              # total number of training epochs
+    save_total_limit=10,              # number of total save model.
+    save_steps=100,                 # model saving step.
+    num_train_epochs=10,              # total number of training epochs
     learning_rate=5e-5,               # learning_rate
     per_device_train_batch_size=16,  # batch size per device during training
     per_device_eval_batch_size=16,   # batch size for evaluation
     warmup_steps=500,                # number of warmup steps for learning rate scheduler
     weight_decay=0.01,               # strength of weight decay
     logging_dir='./logs',            # directory for storing logs
-    logging_steps=500,              # log saving step.
+    logging_steps=100,              # log saving step.
     evaluation_strategy='steps', # evaluation strategy to adopt during training
                                 # `no`: No evaluation during training.
                                 # `steps`: Evaluate every `eval_steps`.
                                 # `epoch`: Evaluate every end of epoch.
-    eval_steps = 500            # evaluation step.
+    eval_steps = 500,            # evaluation step.
   )
   trainer = Trainer(
     model=model,                         # the instantiated 🤗 Transformers model to be trained
