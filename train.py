@@ -23,17 +23,17 @@ def train():
 
   # load dataset
   train_dataset = load_data("./dataset/train/train.tsv")
-  dev_dataset = load_data("./dataset/train/train_dev.tsv")
+  #dev_dataset = load_data("./dataset/train/dev.tsv")
   train_label = train_dataset['label'].values
-  dev_label = dev_dataset['label'].values
-
+  #dev_label = dev_dataset['label'].values
+  
   # tokenizing dataset
   tokenized_train = tokenized_dataset(train_dataset, tokenizer)
-  tokenized_dev = tokenized_dataset(dev_dataset, tokenizer)
+  #tokenized_dev = tokenized_dataset(dev_dataset, tokenizer)
 
   # make dataset for pytorch.
   RE_train_dataset = RE_Dataset(tokenized_train, train_label)
-  RE_dev_dataset = RE_Dataset(tokenized_dev, dev_label)
+  #RE_dev_dataset = RE_Dataset(tokenized_dev, dev_label)
 
   device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
@@ -48,28 +48,28 @@ def train():
   # https://huggingface.co/transformers/main_classes/trainer.html#trainingarguments 참고해주세요.
   training_args = TrainingArguments(
     output_dir='./results',          # output directory
-    save_total_limit=10,              # number of total save model.
-    save_steps=100,                 # model saving step.
-    num_train_epochs=10,              # total number of training epochs
+    save_total_limit=3,              # number of total save model.
+    save_steps=500,                 # model saving step.
+    num_train_epochs=4,              # total number of training epochs
     learning_rate=5e-5,               # learning_rate
     per_device_train_batch_size=16,  # batch size per device during training
-    per_device_eval_batch_size=16,   # batch size for evaluation
+    #per_device_eval_batch_size=16,   # batch size for evaluation
     warmup_steps=500,                # number of warmup steps for learning rate scheduler
     weight_decay=0.01,               # strength of weight decay
     logging_dir='./logs',            # directory for storing logs
     logging_steps=100,              # log saving step.
-    evaluation_strategy='steps', # evaluation strategy to adopt during training
+    #evaluation_strategy='steps', # evaluation strategy to adopt during training
                                 # `no`: No evaluation during training.
                                 # `steps`: Evaluate every `eval_steps`.
                                 # `epoch`: Evaluate every end of epoch.
-    eval_steps = 500,            # evaluation step.
+    #eval_steps = 500,            # evaluation step.
   )
   trainer = Trainer(
     model=model,                         # the instantiated 🤗 Transformers model to be trained
     args=training_args,                  # training arguments, defined above
     train_dataset=RE_train_dataset,         # training dataset
-    eval_dataset=RE_dev_dataset,             # evaluation dataset
-    compute_metrics=compute_metrics         # define metrics function
+    #eval_dataset=RE_dev_dataset,             # evaluation dataset
+    #compute_metrics=compute_metrics         # define metrics function
   )
 
   # train model

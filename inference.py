@@ -7,8 +7,8 @@ import pickle as pickle
 import numpy as np
 import argparse
 
-def pred_answer(model, tokenized_sent, device):
-  dataloader = DataLoader(tokenized_sent, batch_size=32, shuffle=False)
+def inference(model, tokenized_sent, device):
+  dataloader = DataLoader(tokenized_sent, batch_size=40, shuffle=False)
   model.eval()
   output_pred = []
   
@@ -22,9 +22,10 @@ def pred_answer(model, tokenized_sent, device):
     logits = outputs[0]
     logits = logits.detach().cpu().numpy()
     result = np.argmax(logits, axis=-1)
-    output_pred.append(result)
 
-  return list(np.array(output_pred).reshape(-1))
+    output_pred.append(result)
+  
+  return np.array(output_pred).flatten()
 
 def load_test_dataset(dataset_dir, tokenizer):
   test_dataset = load_data(dataset_dir)
@@ -44,24 +45,22 @@ def main(args):
 
   # load my model
   MODEL_NAME = args.model_dir # model dir.
-  bert_config = BertConfig.from_pretrained(MODEL_NAME)
-  bert_config.num_labels = 42
-  model = BertForSequenceClassification(bert_config) 
+  model = BertForSequenceClassification.from_pretrained(args.model_dir)
   model.parameters
   model.to(device)
 
   # load test datset
-  test_dataset_dir = "./dataset/test/public/public_test.tsv"
+  test_dataset_dir = "./dataset/test/test.tsv"
   test_dataset, test_label = load_test_dataset(test_dataset_dir, tokenizer)
   test_dataset = RE_Dataset(test_dataset ,test_label)
 
   # predict answer
-  pred_answer = pred_answer(model, test_dataset, device)
-  
+  pred_answer = inference(model, test_dataset, device)
   # make csv file with predicted answer
   # 아래 directory와 columns의 형태는 지켜주시기 바랍니다.
+
   output = pd.DataFrame(pred_answer, columns=['pred'])
-  output.to_csv('./prediction/pred_answer.csv', index=False)
+  output.to_csv('./prediction/submission.csv', index=False)
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
