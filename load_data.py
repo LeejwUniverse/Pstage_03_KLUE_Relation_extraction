@@ -32,7 +32,7 @@ def preprocessing_dataset(dataset, label_type):
 # tsv 파일을 불러옵니다.
 def load_data(dataset_dir):
   # load label_type, classes
-  with open('./dataset/label_type.pkl', 'rb') as f:
+  with open('/opt/ml/input/data/label_type.pkl', 'rb') as f:
     label_type = pickle.load(f)
   # load dataset
   dataset = pd.read_csv(dataset_dir, delimiter='\t', header=None)
