@@ -50,7 +50,7 @@ def main(args):
   model.to(device)
 
   # load test datset
-  test_dataset_dir = "./dataset/test/test.tsv"
+  test_dataset_dir = "/opt/ml/input/data/test/test.tsv"
   test_dataset, test_label = load_test_dataset(test_dataset_dir, tokenizer)
   test_dataset = RE_Dataset(test_dataset ,test_label)
 
